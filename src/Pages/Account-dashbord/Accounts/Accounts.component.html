@@ -1,0 +1,70 @@
+
+<div class="Contener"  style="width: 90%; margin: 0 auto; border: 1px solid; padding: 5px;"> 
+  <div class="d-flex">
+    <button style="margin:10px;" class="btn btn-success mb-2 "data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="add()">addAccount</button>
+  </div>
+<hr>
+  <table  datatable [dtOptions]="dtOptions1" [dtTrigger]="dtTrigger" class="row-border hover" class="table table-striped mx-auto" >
+    <thead>
+      <tr>
+    
+        <th scope="col">AccountName</th>
+        <th scope="col">Balance</th>
+        <td>Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Account of AllAccounts; let i = index">
+      
+        
+        <td>{{Account.accountName}}</td>
+        <td>{{Account.totalBalance|currency:'USD':'symbol-narrow'}}</td>
+        <td>
+          <a  class="btn btn-success btn-sm mx-3"data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="IntilizeFormFormEdit(Account,i)">Edit</a>
+          <a  class="btn btn-danger btn-sm" (click)="deleteAccount(Account,i)">Delete!!</a>
+      </td>
+      </tr>
+    
+    </tbody>
+  </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div style="background-color: blue;"  class="modal-header">
+        <h5 style="color: aliceblue; font-size: 26px; margin-left: 62px; font-weight: 620;" class="modal-title" id="exampleModalLabel">AddAccount</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroup" >
+          <div class="form-outline mb-4">
+
+            <input type="text" id="typeNameX-2" class="form-control form-control-lg" placeholder="Name" formControlName="accountname" />
+            <span class="text-danger"  *ngIf="formGroup.get('accountname')?.errors?.['required']&&formGroup.get('accountname')?.touched">Required</span>
+            <span class="text-danger"  *ngIf="formGroup.get('accountname')?.errors?.['pattern']">The name must be a string of characters </span>
+          </div>
+
+          <div class="form-outline mb-4">
+
+            <input type="number" id="typeJobX-2" class="form-control form-control-lg" placeholder="balance" formControlName="totalbalance"/>
+            <span class="text-danger"  *ngIf="formGroup.get('totalbalance')?.errors?.['required']&&formGroup.get('accountname')?.touched">Required</span>
+          
+
+          </div>
+          
+          <hr class="my-4">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button *ngIf="showadd" type="button" (click)="AddNewAccount()" class="btn btn-success " >Add</button>
+        <button *ngIf="showupdate" type="button" (click)="UpdataAccount()" class="btn btn-primary" [disabled]="!formGroup.valid" >Update</button>
+      </div>
+    </div>
+  </div>
+</div>

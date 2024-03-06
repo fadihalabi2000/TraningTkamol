@@ -1,0 +1,90 @@
+<nav class="navbar navbar-expand-lg bg-secondary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Home']">Home </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Reservation']">Add Reservation</a>
+         
+        </li>
+       
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Accounts']">Account Dashbord</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Services']">Services Dashbord</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Ather Dashbord
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item"[routerLink]="['/Centers']" >Centers Dashbord</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/Rooms']">Rooms Dashbord</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" >Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<!-- <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Home']">Home </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Reservation']">Add Reservation</a>
+         
+        </li>
+       
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Accounts']">Account Dashbord</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link"  [routerLink]="['/Services']">Services Dashbord</a>
+        </li>
+     
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+            
+      
+       
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      
+    </div>
+  </div>
+</nav> -->

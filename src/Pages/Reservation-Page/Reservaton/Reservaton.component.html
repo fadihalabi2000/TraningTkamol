@@ -1,0 +1,233 @@
+<div class="container mt-5">
+ 
+   <h2 class="text-center mb-3">اختر تواريخ الحجز</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <label for="startDate" class="form-label">تاريخ البداية:</label>
+      <input
+        type="date"
+        id="startDate"
+        [(ngModel)]="selectedStartDate"
+        class="form-control"
+      />
+    </div>
+    <div class="col-md-4">
+      <label for="endDate" class="form-label">تاريخ النهاية:</label>
+      <input
+        type="date"
+        id="endDate"
+        [(ngModel)]="selectedEndDate"
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+    <button (click)="getAvailableRooms()" class="btn btn-primary">
+      ابحث عن القاعات المتاحة
+    </button>
+  </div>
+
+  <div *ngIf="availableRooms.length > 0" class="mt-4 me-4 container ">
+    <h3 class="text-center mb-5">القاعات المتاحة</h3>
+    <div class="row">
+        <div *ngFor="let room of availableRooms" class="col-md-4  ">
+            <div class="card mb-4 ">
+                <div class="card-body "> 
+                    <h4 class="card-title">{{ room.name }} :اسم القاعة</h4>
+                    <p class="card-text">السعة: {{ room.capacity }}</p>
+                    <input
+                        type="checkbox"
+                        name="{{ delect }}"
+                        id="{{ room.id }}"
+                        (click)="send(room.id, room.name, $event.returnValue)"
+                    />
+                   اختر
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center mt-3">
+  <button
+    id="add"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#reservationModal"
+   (click)=" GetAccounts()"
+   [disabled]="availableRooms.length === 0">
+   احجز الأن
+  </button></div> 
+
+
+  
+  <!-- <div *ngIf="availableRooms.length > 0" class="mt-4">
+    <h3 class="text-center">القاعات المتاحة</h3>
+    <div class="card-deck">
+      <div *ngFor="let room of availableRooms" class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{ room.name }}</h4>
+          <p class="card-text">السعة: {{ room.capacity }}</p>
+          <input
+            type="checkbox"
+            name="{{ delect }}"
+            id="{{ room.id }}"
+            (click)="send(room.id,room.name, $event.returnValue)"
+          />
+          تحديد
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div
+  class="modal fade"
+  id="reservationModal"
+  tabindex="-1"
+  aria-labelledby="reservationModalLabel"
+  aria-hidden="true"
+  
+>
+  <div class="modal-dialog" >
+    <div class="modal-content" style="width: 700px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">إضافة حجز</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="cancel()"
+          data-bs-dismiss="modal"
+          id="closemodal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <!-- الخطوة الأولى: معلومات الحجز -->
+  <div *ngIf="currentStep === 1">
+    <h6>اختر الحساب</h6>
+  
+    <select [(ngModel)]="resrvationobj.accountId" (change)="selectaccount()" class="form-control">
+      <option *ngFor="let item of AllAccounts" [value]="item.id">{{item.accountName}}</option>
+    </select>
+  
+    <label for="reservationDate">تاريخ الحجز:</label>
+    <input type="date" id="reservationDate" [(ngModel)]="resrvationobj.reservationDate" class="form-control" />
+  
+    <label for="numberOfAttendees">عدد المستفيدين:</label>
+    <input type="number" id="numberOfAttendees" [(ngModel)]="resrvationobj.numberOfAttendees" class="form-control" />
+  
+    <label>هل الحجز مجاني؟</label>
+    <input type="checkbox" [(ngModel)]="resrvationobj.isFree" /><br/>
+  
+    <label for="bookingRequestImage">صورة الحجز:</label>
+    <input type="file" id="bookingRequestImage" (change)="onFileChange($event)" class="form-control" />
+  
+    <button (click)="nextStep()" class="btn btn-primary mt-3">
+      التالي
+    </button>
+  </div>
+
+        <!-- الخطوة الثانية: إدخال عدد المستفيدين وخيارات إضافية -->
+        <div *ngIf="currentStep === 2" class="d-flex flex-column align-items-start">
+          <h6>اختيار الخدمات</h6>
+          <!-- عرض الخدمات كـ CKeeckbox -->
+          <div *ngFor="let service of AllService; let sr=index" >
+            <div class="form-check d-flex align-items-center">
+              <!-- CKeeckbox -->
+              <input class="form-check-input me-4" type="checkbox" id="{{ service.id }}" 
+                      (change)="toggleServiceSelection(service,acc[sr])"/>
+              
+              <!-- اسم الخدمة -->
+              <label class="form-check-label me-3" for="{{ service.id }}">
+                {{ service.name }}
+              </label>
+          
+              <!-- السعر -->
+              <label class="form-check-label me-3">
+                السعر:
+              </label>
+            
+              <input type="number" [(ngModel)]="service.price" class="form-control me-2" />
+          
+              <!-- عدد المستفيدين -->
+              <label class="form-check-label me-3">
+                عدد المستفيدين
+              </label>
+              <input type="number" name=" {{ service.name }}{{sr}}"  [(ngModel)]="acc[sr]"  class="form-control me-2" />
+            </div>
+          </div>
+          
+       
+        
+     
+         
+          <button (click)="nextStep()" class="btn btn-primary mt-3">
+            التالي
+          </button>
+          <button (click)="previousStep()" class="btn btn-secondary mt-3 mr-2">
+            السابق
+          </button>
+        </div>
+
+        <!-- الخطوة الثالثة: اختيار الخدمات -->
+        <div *ngIf="currentStep === 3">
+          <h6>اختيار الخدمات</h6>
+          <!-- عرض الخدمات كـ CKeeckbox -->
+          <div *ngFor="let Rooms of roomIdArray; let i=index">
+            <div class=" d-flex align-items-center">
+          
+           <label style="width: 50px;">
+            {{Rooms.nameroom}}
+          </label>
+           <label class="form-check-label me-5">
+            تكلفة اليوم
+          </label>
+          <input style="width:auto;" type="number" name=" {{ Rooms.name }}" [(ngModel)]="Rooms.roomCostPerDay" class="form-control me-2" />
+          
+          <label class="form-check-label me-3">
+            اسم التدريب
+          </label>
+          <input type="text" style="width: auto;"  name=" {{ Rooms.name }}" [(ngModel)]="Rooms.trainingName" class="form-control me-2" />
+        </div>
+      </div>
+          
+          <button (click)="confirm()" class="btn btn-primary mt-3">
+            موافق
+          </button>
+          <button (click)="previousStep()" class="btn btn-secondary mt-3 mr-2">
+            السابق
+          </button>
+        </div>
+<!-- hhhh -->
+<div *ngIf="currentStep === 4" class="d-flex flex-column align-items-start">
+     <h6>معلومات الدفع</h6>
+  <!-- عرض الخدمات كـ CKeeckbox -->
+
+    <div class="  align-items-center">
+      <label class="form-check-label me-3">
+      المبلغ المستحق هو:     {{totalPrice|currency}}
+      </label>
+    <br><br>
+      <input type="number" [(ngModel)]="totalPrice" class="form-control me-2" /> <h3>$</h3>
+     
+
+       <br>
+    <button class="btn btn-danger mt-3"  data-bs-dismiss="modal">
+      اغلاق
+     </button>
+     <button class="btn btn-success mt-3 me-3 " (click)="payed()"  >
+      اكمال الدفع
+      </button>
+    </div>
+   
+ 
+   
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,95 @@
+
+<div class="Contener"  style="width: 90%; margin: 0 auto; border: 1px solid; padding: 5px;"> 
+  <div class="d-flex">
+    <button style="margin:10px;" class="btn btn-success mb-2 "data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="add()">Add New Rooms</button>
+  </div>
+<hr>
+  <table  datatable [dtOptions]="dtOptions1" [dtTrigger]="dtTrigger" class="row-border hover" class="table table-striped mx-auto" >
+    <thead>
+      <tr>
+        <th scope="col-2">Rooms Name</th>
+        <th scope="col-2">Rooms capacity</th>
+        <th scope="col-2"> Center</th>
+        <td scope="col-4">Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Rooms of AllRooms; let i = index">
+        
+        <td>{{Rooms.name}}</td>
+        <td>{{Rooms.capacity}}</td>
+        <td >{{Rooms.centerId}}</td>
+        <td>
+          <a  class="btn btn-success btn-sm mx-3"data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="IntilizeFormFormEdit(Rooms,i)">Edit</a>
+          <a  class="btn btn-danger btn-sm" (click)="deleteRooms(Rooms,i)">Delete!!</a>
+      </td>
+      </tr>
+    
+    </tbody>
+  </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div style="background-color: blue;"  class="modal-header">
+        <h5 style="color: aliceblue; font-size: 26px; margin-left: 62px; font-weight: 620;" class="modal-title" id="exampleModalLabel">Add Rooms</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroup" >
+          <div class="form-outline mb-4">
+
+            <input type="text" id="typeNameX-2" class="form-control form-control-lg" placeholder="Name" formControlName="name" />
+            <span class="text-danger"  *ngIf="formGroup.get('name')?.errors?.['required']&&formGroup.get('name')?.touched">Required</span>
+            <span class="text-danger"  *ngIf="formGroup.get('name')?.errors?.['pattern']&&formGroup.get('name')?.touched">The name must be a string of characters </span>
+          </div>
+
+          <div class="form-outline mb-4">
+
+            <input type="number" id="typeJobX-2" class="form-control form-control-lg" placeholder="capacity" formControlName="capacity"/>
+            <span class="text-danger"  *ngIf="formGroup.get('capacity')?.errors?.['required']&&formGroup.get('capacity')?.touched">Required</span>
+
+          </div>
+           
+          <div class="form-outline mb-4">
+            <label for="center">select the center</label> <br>
+            <select style="width: 250px;;" id="center" class="form-control form-control" (change)="onselect($event)" formControlName="centerId">
+              <option value="0" selected>Select</option>
+              <option *ngFor="let Center of AllCenter" [value]="Center.id">
+                {{ Center.name}}
+              </option>
+            </select>
+          
+            <span class="text-danger"  *ngIf="formGroup.get('centerId')?.errors?.['required']&&formGroup.get('centerId')?.touched">Required</span>
+          
+          </div>
+          <hr class="my-4">
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button *ngIf="showadd" type="button" (click)="AddNewRooms()" class="btn btn-success " >Add</button>
+        <button *ngIf="showupdate" type="button"  class="btn btn-primary" [disabled]="!formGroup.valid" >Update</button>
+      </div>
+      <p>Form value: {{ formGroup.value | json }}</p>  
+    </div>
+  </div>
+</div>
+<!-- <form [formGroup]="formGroup">
+  <div class="col-6">
+  <label for="center">select the center</label> <br>
+  <select style="width: 150px;" id="center" (change)="onselect($event)" formControlName="state">
+    <option value="0" selected>Select</option>
+    <option *ngFor="let Rooms of AllRooms" [value]="Rooms.id">
+      {{ Rooms.name}}
+    </option>
+  </select>
+</div>
+</form>
+ <p>Form value: {{ formGroup.value | json }}</p>  -->
+ <!-- {state: {name: 'New York', abbrev: 'NY'} } -->
