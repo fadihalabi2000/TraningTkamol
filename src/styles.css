@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+body{background: #d7dbe0;
+    background: linear-gradient(to right, #888686, #ffffff)
+}
+table.dataTable thead>tr>th.sorting{
+    margin-top: 10px;
+    text-align: center;
+    background: #e5e9eb;
+}
+table{
+    direction: rtl;
+    text-align: center;
+}
+
+

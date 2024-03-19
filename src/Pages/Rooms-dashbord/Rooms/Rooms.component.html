@@ -1,7 +1,7 @@
 
-<div class="Contener"  style="width: 90%; margin: 0 auto; border: 1px solid; padding: 5px;"> 
+<div class="Contener"  style="width: 90%; margin: 0 auto; border: 1px solid; padding: 5px;" dir="rtl"> 
   <div class="d-flex">
-    <button style="margin:10px;" class="btn btn-success mb-2 "data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="add()">Add New Rooms</button>
+    <button style="margin:10px;" class="btn btn-success mb-2 "data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="add()"><p *ngIf="showadd"> اضافة قاعة جديدة</p> <p *ngIf="showupdate">تعديل بيانات قاعة</p></button>
   </div>
 <hr>
   <table  datatable [dtOptions]="dtOptions1" [dtTrigger]="dtTrigger" class="row-border hover" class="table table-striped mx-auto" >
@@ -10,7 +10,7 @@
         <th scope="col-2">Rooms Name</th>
         <th scope="col-2">Rooms capacity</th>
         <th scope="col-2"> Center</th>
-        <td scope="col-4">Action</td>
+        <th scope="col-4">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +21,7 @@
         <td >{{Rooms.centerId}}</td>
         <td>
           <a  class="btn btn-success btn-sm mx-3"data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="IntilizeFormFormEdit(Rooms,i)">Edit</a>
-          <a  class="btn btn-danger btn-sm" (click)="deleteRooms(Rooms,i)">Delete!!</a>
+          <a  class="btn btn-danger btn-sm" (click)="deleteRooms(Rooms,i)">حذف</a>
       </td>
       </tr>
     
@@ -35,8 +35,8 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div style="background-color: blue;"  class="modal-header">
-        <h5 style="color: aliceblue; font-size: 26px; margin-left: 62px; font-weight: 620;" class="modal-title" id="exampleModalLabel">Add Rooms</h5>
+      <div style="background-color: rgb(74, 74, 206);"  class="modal-header">
+        <h5 style="color: aliceblue; font-size: 26px; margin-left: 62px; font-weight: 620;" class="modal-title" id="exampleModalLabel">اضافة غرفة جديدة</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -72,24 +72,12 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button  type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button *ngIf="showadd" type="button" (click)="AddNewRooms()" class="btn btn-success " >Add</button>
-        <button *ngIf="showupdate" type="button"  class="btn btn-primary" [disabled]="!formGroup.valid" >Update</button>
+        <button  type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+        <button *ngIf="showadd" type="button" (click)="AddNewRooms()" class="btn btn-success " >حفظ</button>
+        <button *ngIf="showupdate" type="button"  class="btn btn-primary" [disabled]="!formGroup.valid" >تحديث</button>
       </div>
       <p>Form value: {{ formGroup.value | json }}</p>  
     </div>
   </div>
 </div>
-<!-- <form [formGroup]="formGroup">
-  <div class="col-6">
-  <label for="center">select the center</label> <br>
-  <select style="width: 150px;" id="center" (change)="onselect($event)" formControlName="state">
-    <option value="0" selected>Select</option>
-    <option *ngFor="let Rooms of AllRooms" [value]="Rooms.id">
-      {{ Rooms.name}}
-    </option>
-  </select>
-</div>
-</form>
- <p>Form value: {{ formGroup.value | json }}</p>  -->
- <!-- {state: {name: 'New York', abbrev: 'NY'} } -->
+

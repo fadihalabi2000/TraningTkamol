@@ -14,6 +14,8 @@ import { NavbarComponent } from 'src/nav/navbar/navbar.component';
 import { ReservatonComponent } from 'src/Pages/Reservation-Page/Reservaton/Reservaton.component';
 import { AccountsComponent } from 'src/Pages/Account-dashbord/Accounts/Accounts.component';
 import { FooterComponent } from './footer/footer.component';
+import { ReservationCalenderComponent } from 'src/Pages/Reservation-calender/ReservationCalender/ReservationCalender.component';
+import { LoginComponent } from 'src/Pages/login/login.component';
 
 
 @NgModule({
@@ -27,8 +29,11 @@ import { FooterComponent } from './footer/footer.component';
     NavbarComponent,
     ReservatonComponent,
     AccountsComponent,
-    FooterComponent
-  ],
+    FooterComponent,
+    ReservationCalenderComponent,
+    LoginComponent
+    ]
+    ,
   imports: [
     BrowserModule,
     DataTablesModule ,

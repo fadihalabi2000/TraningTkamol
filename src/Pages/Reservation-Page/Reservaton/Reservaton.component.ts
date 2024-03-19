@@ -64,10 +64,10 @@ export class ReservatonComponent implements OnInit {
   //   "trainingName":'',
   //  };
   accountmovement:AccountMovementView={
-    reservationId: 0,
+
     movementValue: 0,
     status:MovementStatus.Negative,
-    movementDate:'',
+    movementDate:new Date(),
     accountId: 0,
     accountStatement:''
   }
@@ -123,6 +123,10 @@ delect:string='';
     })
    }
 
+   // Helper function to check if two date strings are equal
+ datesAreEqual(date1: string, date2: string): boolean {
+  return new Date(date1).getTime() === new Date(date2).getTime();
+  }
    /////////
     // Function to toggle service selection
   toggleServiceSelection(service: any,count:any): void {
@@ -133,7 +137,7 @@ delect:string='';
     if (displayIndex === -1) {
       // If not selected, add it to the display array
       this.selectedServicesDisplay.push({ id: service.id, name: service.name, price: service.price });
-console.log("service selected desp  :",this.selectedServicesDisplay);
+   console.log("service selected desp  :",this.selectedServicesDisplay);
 
       // Add corresponding entry to the array for sending to the database
       this.reservationServiceViews.push({
@@ -163,20 +167,22 @@ console.log("service selected desp  :",this.selectedServicesDisplay);
   }
   
   getAvailableRooms() {
+    
     console.log(this.selectedEndDate,'',this.selectedStartDate);
     const start = new Date(this.selectedStartDate);
     const end = new Date(this.selectedEndDate);
   
     // Calculate the difference in milliseconds
     const timeDifference = end.getTime() - start.getTime()+1;
-  
+    this.availableRooms=[];
     // Convert the difference to days
      this.daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
      console.log("the deferance date is :",this.daysDifference);
     this._reservationService.getUnreservedRooms(this.selectedStartDate, this.selectedEndDate).subscribe(
       (rooms) => {
+        
           this.availableRooms = rooms;
-       
+       console.log( this.availableRooms);
        
       },
       (error) => {
@@ -272,7 +278,7 @@ console.log("service selected desp  :",this.selectedServicesDisplay);
     //  reservationId:0
       this.transactionreservations.reservationRoomViews.push( this.roomIdArray[index]) ;
      this.totalRoomPrice += this.roomIdArray[index].roomCostPerDay;
-     console.log("room price ", this.totalRoomPrice)
+     console.log(".totalRoomPrice ", this.totalRoomPrice)
      }
      console.log("thid",this.transactionreservations.reservationRoomViews);
 
@@ -317,28 +323,16 @@ console.log("this transaction",this.transactionreservations);
                          alert("تمت اضافة الحجز بنجاح");
                          this.currentStep=4;
                          this.totalPrice=this.totalRoomPrice+this.totalServicePrice;
-                  
+                          console.log('totalPrice00:', this.totalPrice);
                           this.accountmovement={
-                            reservationId:this.resrvationobj.reservationId,
+                            //reservationId:this.resrvationobj.reservationId,
                             accountId:this.resrvationobj.accountId,
                             movementValue:this.totalPrice,
                             movementDate:this.resrvationobj.reservationDate,
                             status:MovementStatus.Negative,
                             accountStatement: ''
                           }
-                          this._AccountMovementService.PostAccount(this.accountmovement).subscribe( (response) => {
-                            const responseBody = response;
-                            console.log('Response Body:', responseBody);
-                           // console.log('id reservation:', responseBody.reservationId);
-                          },
-                          (error) => {
-                           alert('حدث خطأ اثناء اضافة تكاليف  الحجز');
-                           this._AccountMovementService.PostAccount(this.accountmovement)
-                                          .subscribe( (response) => {
-                                          const responseBody = response;
-                                          console.log('Response Body:', responseBody);
-                           });
-                          });
+                          this.AddPayment(this.accountmovement);
                           
                         },
                         error=>{
@@ -348,9 +342,22 @@ console.log("this transaction",this.transactionreservations);
                       );
  
   }
+  AddPayment(accountMovementView: AccountMovementView){
+    this._AccountMovementService.PostAccount(accountMovementView).subscribe( (response) => {
+      const responseBody = response;
+      console.log('Response Body:', responseBody);
+      alert("تمت عملية إضافة التكلفة إلى الحساب");
+     // console.log('id reservation:', responseBody.reservationId);
+    },
+    (error) => {
+     alert('حدث خطأ اثناء اضافة تكاليف  الحجز');
+    // إعادة إرسال طلب الحركة المالية في حالة الفشل 
+    this.AddPayment(accountMovementView);
+    });
+  }
   payed(){
     this.accountmovement={
-      reservationId:this.resrvationobj.reservationId,
+      //reservationId:this.resrvationobj.reservationId,
       accountId:this.resrvationobj.accountId,
       movementValue:this.totalPrice,
       movementDate:this.resrvationobj.reservationDate,
@@ -368,9 +375,8 @@ console.log("this transaction",this.transactionreservations);
                            // console.log('id reservation:', responseBody.reservationId);
                           },
                           (error) => {
-                           alert('حدث خطأ اثناء اضافة تكاليف  الحجز');
-                           this._AccountMovementService.PostAccount(this.accountmovement)
-                                            .subscribe( (response) => {response=response});
+                           alert('فشلت عمليةالدفع حاول مجددا');
+                           
                           });
   }
   // دالة لإلغاء العملية وإغلاق الديالوج

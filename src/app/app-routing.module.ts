@@ -6,6 +6,7 @@ import { CentersComponent } from 'src/Pages/Center-dashbord/Centers/Centers.comp
 import { RoomsComponent } from 'src/Pages/Rooms-dashbord/Rooms/Rooms.component';
 import { ServicesComponent } from 'src/Pages/Service-dashbord/Services/Services.component';
 import { ReservatonComponent } from 'src/Pages/Reservation-Page/Reservaton/Reservaton.component';
+import { LoginComponent } from 'src/Pages/login/login.component';
 
 const routes: Routes = [
   { path: 'Home', component:HomeComponent},
@@ -14,9 +15,10 @@ const routes: Routes = [
   { path: 'Rooms', component: RoomsComponent},
   { path: 'Services', component: ServicesComponent},
   { path: 'Reservation', component: ReservatonComponent},
+  { path: 'login', component: LoginComponent},
 
-       {path:'Home',redirectTo:'Home',pathMatch:"full"},
-       {path:'**',redirectTo:'Home',pathMatch:"full"}
+       {path:'login',redirectTo:'login',pathMatch:"full"},
+       {path:'**',redirectTo:'login',pathMatch:"full"}
 ];
 
 @NgModule({

@@ -1,0 +1,39 @@
+
+<section  class="vh-100" style="background-color: #bfcadd;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center"  >
+
+            <h3 class="mb-5">login</h3>
+              <form  [formGroup]="formGroup" (ngSubmit)="onLogin()">
+            <div class="form-outline mb-4">
+
+              <input type="email" id="typeEmailX-2" class="form-control form-control-lg" placeholder="test@gmail.com" formControlName="email" />
+              <span class="text-danger"  *ngIf="formGroup.get('email')?.errors?.['email']">Please enter your email</span>
+              <span class="text-danger"  *ngIf="formGroup.get('email')?.errors?.['required']">Required</span>
+
+
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password"  id="typePasswordX-2" class="form-control form-control-lg" placeholder="Password" formControlName="password"/>
+              <span class="text-danger"  *ngIf="formGroup.get('password')?.errors?.['required']">Required</span>
+            </div>
+
+
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="!formGroup.valid"  >Login</button>
+
+            <hr class="my-4">
+
+          </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

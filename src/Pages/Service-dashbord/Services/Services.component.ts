@@ -47,6 +47,7 @@ export class ServicesComponent implements OnInit {
       pagingType: 'full_numbers',
       pageLength: 7,
       retrieve: false
+      
   }
  // Load DataTables state from localStorage
  const savedState = localStorage.getItem('dataTablesState');
